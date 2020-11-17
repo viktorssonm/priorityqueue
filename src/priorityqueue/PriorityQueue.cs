@@ -1,20 +1,140 @@
 using System;
+using System.Collections.Generic;
 
-
-public class PriorityQueue
+public class PriorityQueue<T> where T : IComparable<T>
 {
 
     public PriorityQueue()
     {
-        elements = new int[10];
+        elements = new List<T>();
     }
 
-    public void AddElement(int x)
+    public void Enqueue(T data)
     {
-        elements.SetValue(x, numberOfItems);
+        elements.Add(data);
+        BubbleUp(numberOfItems);
         numberOfItems++;
     }
-    private Array elements;
+
+    public T Dequeue()
+    {
+        // Check if there is any items in the array;
+        if (numberOfItems < 1)
+        {
+            throw new IndexOutOfRangeException("No more items in array");
+        }
+
+        T rootElement = elements[0];
+
+        if (numberOfItems == 1)
+        {
+            numberOfItems--;
+            elements.RemoveAt(0);
+            return rootElement;
+        }
+
+        elements[0] = elements[numberOfItems - 1];
+        elements.RemoveAt(numberOfItems - 1);
+        numberOfItems--;
+        BubbleDown(0);
+
+        return rootElement;
+
+    }
+
+    private void BubbleDown(int root)
+    {
+        if (numberOfItems == 1)
+        {
+            return;
+        }
+
+        if (numberOfItems == 2)
+        {
+            if (elements[0].CompareTo(elements[1]) > 0)
+            {
+                T temp = elements[0];
+                elements[0] = elements[1];
+                elements[1] = temp;
+            }
+            return;
+        }
+
+
+        T rootElement = elements[root];
+        int leftChildIndex = GetLeftChild(root);
+        int rightChildIndex = GetRightChild(root);
+
+
+        if ((leftChildIndex > numberOfItems - 1) || (rightChildIndex > numberOfItems - 1))
+        {
+            return;
+        }
+
+        T leftChild = elements[GetLeftChild(root)];
+        T rightChild = elements[GetRightChild(root)];
+
+        if ((rootElement.CompareTo(leftChild) <= 0) && rootElement.CompareTo(rightChild) <= 0)
+        {
+            return;
+        }
+
+        if (leftChild.CompareTo(rightChild) < 0)
+        {
+            // Left child is less.
+            elements[root] = leftChild;
+            elements[GetLeftChild(root)] = rootElement;
+            BubbleDown(GetLeftChild(root));
+        }
+        else
+        {
+            elements[root] = rightChild;
+            elements[GetRightChild(root)] = rootElement;
+            BubbleDown(GetRightChild(root));
+        }
+
+
+
+    }
+
+    private void BubbleUp(int position)
+    {
+        if (position == 0)
+        {
+            return;
+        }
+        T parentItem = elements[GetParent(position)];
+        T childItem = elements[position];
+
+        if (parentItem.CompareTo(childItem) >= 0)
+        {
+            System.Console.WriteLine("Less");
+            elements[GetParent(position)] = childItem;
+            elements[position] = parentItem;
+            BubbleUp(GetParent(position));
+        }
+    }
+
+
+
+    // Helper functions to get index of data
+    private int GetLeftChild(int value)
+    {
+        return 2 * value + 1;
+    }
+
+    private int GetRightChild(int value)
+    {
+        return 2 * value + 2;
+    }
+
+    private int GetParent(int value)
+    {
+        return (value - 1) / 2;
+    }
+
+
+    private List<T> elements;
     private int numberOfItems = 0;
 
 }
