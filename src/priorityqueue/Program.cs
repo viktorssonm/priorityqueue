@@ -7,6 +7,9 @@ namespace priorityqueue
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
+            PriorityQueue test = new PriorityQueue();
+            test.AddElement(4);
+
         }
     }
 }
