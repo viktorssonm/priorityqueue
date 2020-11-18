@@ -45,11 +45,71 @@ public class PriorityQueue<T> where T : IComparable<T>
     private void BubbleDown(int root)
     {
         T rootElement = elements[0];
-        T? leftChild;
-        T? rightChild;
+        int leftChildIndex = GetLeftChild(root);
+        int rightChildIndex = GetRightChild(root);
+        int endOfList = numberOfItems - 1;
 
+        // Check if no childs exists.
+        if ((leftChildIndex > endOfList) && (rightChildIndex > endOfList))
+        {
+            return;
+        }
 
+        // Check if only left child exists.
+        if ((leftChildIndex <= endOfList) && (rightChildIndex > endOfList))
+        {
+            T leftElement = elements[leftChildIndex];
+            if (rootElement.CompareTo(leftElement) > 0)
+            {
+                swap(root, leftChildIndex);
+                BubbleDown(leftChildIndex);
+                return;
+            }
+        }
 
+        // Check if only right child exists.
+        if ((leftChildIndex > endOfList) && (rightChildIndex <= endOfList))
+        {
+            T rightElement = elements[rightChildIndex];
+            if (rootElement.CompareTo(rightElement) > 0)
+            {
+                swap(root, rightChildIndex);
+                BubbleDown(rightChildIndex);
+                return;
+            }
+        }
+
+        // If both child exists, pick the smallest and check.
+        if ((leftChildIndex <= endOfList) && rightChildIndex <= endOfList)
+        {
+            T leftElement = elements[leftChildIndex];
+            T rightElement = elements[rightChildIndex];
+
+            // If leftElement is larger than rightElement
+            if (leftElement.CompareTo(rightElement) > 0)
+            {
+                // If rootElement is larger han left perform swap.
+                if (rootElement.CompareTo(leftElement) > 0)
+                {
+                    swap(root, leftChildIndex);
+                    BubbleDown(leftChildIndex);
+                    return;
+                }
+
+                // In this case Right index is larger han left.
+            }
+            else
+            {   // If rootelement is larger than right perform swap.
+                if (rootElement.CompareTo(rightElement) > 0)
+                {
+                    swap(root, rightChildIndex);
+                    BubbleDown(rightChildIndex);
+                    return;
+                }
+            }
+
+        }
+        return;
 
     }
 
@@ -119,7 +179,6 @@ public class PriorityQueue<T> where T : IComparable<T>
 
         if (parentItem.CompareTo(childItem) >= 0)
         {
-            System.Console.WriteLine("Less");
             elements[GetParent(position)] = childItem;
             elements[position] = parentItem;
             BubbleUp(GetParent(position));
