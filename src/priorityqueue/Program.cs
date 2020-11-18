@@ -9,8 +9,6 @@ namespace priorityqueue
             Console.WriteLine("Hello World!");
             PriorityQueue<int> test = new PriorityQueue<int>();
 
-
-
             for (int x = 10; x > 0; x--)
             {
                 test.Enqueue(x);

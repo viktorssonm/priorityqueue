@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 public class PriorityQueue<T> where T : IComparable<T>
 {
-
     public PriorityQueue()
     {
         elements = new List<T>();
@@ -237,6 +236,4 @@ dequeue()
     -Repeat until you no longer bubble down or there are no more children to compare against.
 
 peek() - Look at the root of the three = index 0
-
-
 */
