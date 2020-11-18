@@ -31,7 +31,7 @@ namespace tests
         public void TestManyItems()
         {
             PriorityQueue<int> test = new PriorityQueue<int>();
-            for (int x = 0; x < 1000000; x++)
+            for (int x = 1000000; x > 0; x--)
             {
                 test.Enqueue(x);
             }

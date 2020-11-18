@@ -44,58 +44,69 @@ public class PriorityQueue<T> where T : IComparable<T>
 
     private void BubbleDown(int root)
     {
-        if (numberOfItems == 1)
-        {
-            return;
-        }
+        T rootElement = elements[0];
+        T? leftChild;
+        T? rightChild;
 
-        if (numberOfItems == 2)
-        {
-            if (elements[0].CompareTo(elements[1]) > 0)
-            {
-                T temp = elements[0];
-                elements[0] = elements[1];
-                elements[1] = temp;
-            }
-            return;
-        }
-
-
-        T rootElement = elements[root];
-        int leftChildIndex = GetLeftChild(root);
-        int rightChildIndex = GetRightChild(root);
-
-
-        if ((leftChildIndex > numberOfItems - 1) || (rightChildIndex > numberOfItems - 1))
-        {
-            return;
-        }
-
-        T leftChild = elements[GetLeftChild(root)];
-        T rightChild = elements[GetRightChild(root)];
-
-        if ((rootElement.CompareTo(leftChild) <= 0) && rootElement.CompareTo(rightChild) <= 0)
-        {
-            return;
-        }
-
-        if (leftChild.CompareTo(rightChild) < 0)
-        {
-            // Left child is less.
-            elements[root] = leftChild;
-            elements[GetLeftChild(root)] = rootElement;
-            BubbleDown(GetLeftChild(root));
-        }
-        else
-        {
-            elements[root] = rightChild;
-            elements[GetRightChild(root)] = rootElement;
-            BubbleDown(GetRightChild(root));
-        }
 
 
 
     }
+
+    // private void BubbleDown(int root)
+    // {
+    //     if (numberOfItems == 1)
+    //     {
+    //         return;
+    //     }
+
+    //     if (numberOfItems == 2)
+    //     {
+    //         if (elements[0].CompareTo(elements[1]) > 0)
+    //         {
+    //             T temp = elements[0];
+    //             elements[0] = elements[1];
+    //             elements[1] = temp;
+    //         }
+    //         return;
+    //     }
+
+
+    //     T rootElement = elements[root];
+    //     int leftChildIndex = GetLeftChild(root);
+    //     int rightChildIndex = GetRightChild(root);
+
+
+    //     if ((leftChildIndex > numberOfItems - 1) || (rightChildIndex > numberOfItems - 1))
+    //     {
+    //         return;
+    //     }
+
+    //     T leftChild = elements[GetLeftChild(root)];
+    //     T rightChild = elements[GetRightChild(root)];
+
+    //     if ((rootElement.CompareTo(leftChild) <= 0) && rootElement.CompareTo(rightChild) <= 0)
+    //     {
+    //         return;
+    //     }
+
+    //     if (leftChild.CompareTo(rightChild) < 0)
+    //     {
+    //         // Left child is less.
+    //         elements[root] = leftChild;
+    //         elements[GetLeftChild(root)] = rootElement;
+    //         BubbleDown(GetLeftChild(root));
+    //     }
+    //     else
+    //     {
+    //         elements[root] = rightChild;
+    //         elements[GetRightChild(root)] = rootElement;
+    //         BubbleDown(GetRightChild(root));
+    //     }
+
+
+
+    // }
 
     private void BubbleUp(int position)
     {
@@ -131,6 +142,18 @@ public class PriorityQueue<T> where T : IComparable<T>
     private int GetParent(int value)
     {
         return (value - 1) / 2;
+    }
+
+    // Helper swap function
+    private void swap(int firstIndex, int secondIndex)
+    {
+        if ((firstIndex > numberOfItems - 1) || (secondIndex > numberOfItems - 1))
+        {
+            throw new IndexOutOfRangeException("Trying to swap something out of bouds.");
+        }
+        T temp = elements[firstIndex];
+        elements[firstIndex] = elements[secondIndex];
+        elements[secondIndex] = temp;
     }
 
 
