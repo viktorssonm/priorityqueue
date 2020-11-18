@@ -31,16 +31,18 @@ namespace tests
         public void TestManyItems()
         {
             PriorityQueue<int> test = new PriorityQueue<int>();
-            for (int x = 200; x > 0; x--)
+            for (int x = 100000; x >= 0; x--)
             {
                 test.Enqueue(x);
             }
 
-            for (int x = 0; x < 200; x++)
+            for (int x = 0; x < 100000; x++)
             {
-                int returnValue = test.Dequeue();
-                Assert.Equal(returnValue, x);
+                var result = test.Dequeue();
+                Assert.Equal(x, result);
             }
+
+
         }
     }
 }

@@ -44,7 +44,7 @@ public class PriorityQueue<T> where T : IComparable<T>
 
     private void BubbleDown(int root)
     {
-        T rootElement = elements[0];
+        T rootElement = elements[root];
         int leftChildIndex = GetLeftChild(root);
         int rightChildIndex = GetRightChild(root);
         int endOfList = numberOfItems - 1;
@@ -85,8 +85,8 @@ public class PriorityQueue<T> where T : IComparable<T>
             T leftElement = elements[leftChildIndex];
             T rightElement = elements[rightChildIndex];
 
-            // If leftElement is larger than rightElement
-            if (leftElement.CompareTo(rightElement) > 0)
+            // If leftElement is smaller than rightElement
+            if (leftElement.CompareTo(rightElement) < 0)
             {
                 // If rootElement is larger han left perform swap.
                 if (rootElement.CompareTo(leftElement) > 0)
@@ -113,60 +113,38 @@ public class PriorityQueue<T> where T : IComparable<T>
 
     }
 
-    // private void BubbleDown(int root)
-    // {
-    //     if (numberOfItems == 1)
-    //     {
-    //         return;
-    //     }
+    // Test method to validate three.
+    public bool validateElements(int root)
+    {
+        T rootElement = elements[root];
+        int leftChildIndex = GetLeftChild(root);
+        int rightChildIndex = GetRightChild(root);
 
-    //     if (numberOfItems == 2)
-    //     {
-    //         if (elements[0].CompareTo(elements[1]) > 0)
-    //         {
-    //             T temp = elements[0];
-    //             elements[0] = elements[1];
-    //             elements[1] = temp;
-    //         }
-    //         return;
-    //     }
+        // If left child exists
+        if (leftChildIndex < numberOfItems - 1)
+        {
+            T leftChildElement = elements[leftChildIndex];
+            if (rootElement.CompareTo(leftChildElement) > 0)
+            {
+                return false;
+            }
+            validateElements(leftChildIndex);
+        }
 
-
-    //     T rootElement = elements[root];
-    //     int leftChildIndex = GetLeftChild(root);
-    //     int rightChildIndex = GetRightChild(root);
-
-
-    //     if ((leftChildIndex > numberOfItems - 1) || (rightChildIndex > numberOfItems - 1))
-    //     {
-    //         return;
-    //     }
-
-    //     T leftChild = elements[GetLeftChild(root)];
-    //     T rightChild = elements[GetRightChild(root)];
-
-    //     if ((rootElement.CompareTo(leftChild) <= 0) && rootElement.CompareTo(rightChild) <= 0)
-    //     {
-    //         return;
-    //     }
-
-    //     if (leftChild.CompareTo(rightChild) < 0)
-    //     {
-    //         // Left child is less.
-    //         elements[root] = leftChild;
-    //         elements[GetLeftChild(root)] = rootElement;
-    //         BubbleDown(GetLeftChild(root));
-    //     }
-    //     else
-    //     {
-    //         elements[root] = rightChild;
-    //         elements[GetRightChild(root)] = rootElement;
-    //         BubbleDown(GetRightChild(root));
-    //     }
+        // If right child exists
+        if (rightChildIndex < numberOfItems - 1)
+        {
+            T rightChildElement = elements[rightChildIndex];
+            if (rootElement.CompareTo(rightChildElement) > 0)
+            {
+                return false;
+            }
+            validateElements(rightChildIndex);
+        }
 
 
-
-    // }
+        return true;
+    }
 
     private void BubbleUp(int position)
     {
@@ -177,7 +155,7 @@ public class PriorityQueue<T> where T : IComparable<T>
         T parentItem = elements[GetParent(position)];
         T childItem = elements[position];
 
-        if (parentItem.CompareTo(childItem) >= 0)
+        if (parentItem.CompareTo(childItem) > 0)
         {
             elements[GetParent(position)] = childItem;
             elements[position] = parentItem;
@@ -218,6 +196,14 @@ public class PriorityQueue<T> where T : IComparable<T>
 
     private List<T> elements;
     private int numberOfItems = 0;
+
+    public int count
+    {
+        get
+        {
+            return numberOfItems;
+        }
+    }
 
 }
 
